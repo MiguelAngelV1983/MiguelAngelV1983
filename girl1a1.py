@@ -16,21 +16,34 @@ class Girl:
     
 
     myGirl = pygame.image.load("./res/walking_animation.png")
-    miniGirl = dict()
-    miniGirl[0] = myGirl.subsurface((0,0), (50,130))
-    miniGirl[1] = myGirl.subsurface((130,50), (50,130))
-    miniGirl[2] = myGirl.subsurface((260,50), (50,130))
-    miniGirl[3] = myGirl.subsurface((390,50), (50,130))
-    miniGirl[4] = myGirl.subsurface((520,50), (50,130))
-    miniGirl[5] = myGirl.subsurface((50,0), (10,5))
-    miniGirl[6] = myGirl.subsurface((60,0), (10,5))
-    miniGirl[7] = myGirl.subsurface((70,0), (10,5))
-    miniGirl[8] = myGirl.subsurface((80,0), (10,5))
-    miniGirl[9] = myGirl.subsurface((90,0), (10,5))
+    miniGirlR = dict()
+    miniGirlL = dict()
+    miniGirlR[0] = myGirl.subsurface((0,0),(63,127)) #(X inicio, Y inicio)(X tamaño, Y tamaño)
+    miniGirlR[1] = myGirl.subsurface((64,0), (63,127))
+    miniGirlR[2] = myGirl.subsurface((128,0), (63,127))
+    miniGirlR[3] = myGirl.subsurface((192,0), (63,127))
+    miniGirlR[4] = myGirl.subsurface((256,0), (63,127))
+    miniGirlR[5] = myGirl.subsurface((320,0), (63,127))
+    miniGirlR[6] = myGirl.subsurface((384,0), (63,127))
+    miniGirlR[7] = myGirl.subsurface((448,0), (63,127))
+    miniGirlR[8] = myGirl.subsurface((512,0), (63,127))
+    miniGirlR[9] = myGirl.subsurface((576,0), (63,127))
+    miniGirlL[0] = myGirl.subsurface((0,128),(63,127)) #(X inicio, Y inicio)(X tamaño, Y tamaño)
+    miniGirlL[1] = myGirl.subsurface((64,128), (63,127))
+    miniGirlL[2] = myGirl.subsurface((128,128), (63,127))
+    miniGirlL[3] = myGirl.subsurface((192,128), (63,127))
+    miniGirlL[4] = myGirl.subsurface((256,128), (63,127))
+    miniGirlL[5] = myGirl.subsurface((320,128), (63,127))
+    miniGirlL[6] = myGirl.subsurface((384,128), (63,127))
+    miniGirlL[7] = myGirl.subsurface((448,128), (63,127))
+    miniGirlL[8] = myGirl.subsurface((512,128), (63,127))
+    miniGirlL[9] = myGirl.subsurface((576,128), (63,127))
 
 
     x, y = screen.get_width()/15, 100
     move_x, move_y = 0, 0
+    sprite_num = 0
+    sprite_lr = True
 
     while True:
         for event in pygame.event.get():
@@ -50,6 +63,14 @@ class Girl:
                 elif event.key == pygame.K_RIGHT:
                     move_x = 0
 
+            elif event.type == pygame.K_RIGHT:
+                if event.key == pygame.K_LEFT:
+                    move_x = -0.1
+                    screen.blit(miniGirlL[1], (x, y))
+                elif event.key == pygame.K_RIGHT:
+                    move_x = +0.1
+                    screen.blit(miniGirlR[1], (x, y))
+
         x+= move_x
         y+= move_y
 
@@ -63,8 +84,13 @@ class Girl:
         screen.fill((0, 225, 255))
 
         
-        for i in range (0,10):
-            screen.blit(miniGirl[i], (x, y))
+        
+        screen.blit(miniGirlR[0], (x, y))
+        screen.blit(miniGirlL[0], (x, y+128))
+        
+        
+
+        
 
 
 
