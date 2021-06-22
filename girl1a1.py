@@ -53,9 +53,19 @@ class Girl:
     
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    move_x = -0.1
+                    move_x = -1
+                    sprite_lr = False
+                    if(sprite_num == 0):
+                        sprite_num = 9
+                    else:
+                        sprite_num -= 1
                 elif event.key == pygame.K_RIGHT:
-                    move_x = +0.1
+                    move_x = +1
+                    sprite_lr = True
+                    if(sprite_num == 9):
+                        sprite_num = 0
+                    else:
+                        sprite_num += 1
                 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
@@ -65,28 +75,39 @@ class Girl:
 
             elif event.type == pygame.K_RIGHT:
                 if event.key == pygame.K_LEFT:
-                    move_x = -0.1
-                    screen.blit(miniGirlL[1], (x, y))
+                    move_x = -1
                 elif event.key == pygame.K_RIGHT:
-                    move_x = +0.1
-                    screen.blit(miniGirlR[1], (x, y))
-
+                    move_x = +1
+                    sprite_num += 1
+                    
         x+= move_x
         y+= move_y
 
+        if(x < 0):
+            x = 0
 
-##        if (move_x > coord_x or move_x < 0):
-##            if move_x > coord_x:
-##                move_x = coord_x
-##            elif move_x < 0:
-##                move_x = 0
+        if(x > coord_x-64):
+            x = coord_x-64
+
+        
+
+        print(x)
+
 
         screen.fill((0, 225, 255))
-
+        if(sprite_lr == True):
+            screen.blit(miniGirlR[sprite_num], (x, y))
+        else:
+            screen.blit(miniGirlL[sprite_num], (x, y))
         
-        
-        screen.blit(miniGirlR[0], (x, y))
-        screen.blit(miniGirlL[0], (x, y+128))
+##        for i in range(0,9):
+##            
+##            
+##            x+=0.05
+##            if (x==coord_x):
+##                for j in range(9,0):
+##                    x+=0.05
+##                    screen.blit(miniGirlL[j], (x, y+128))
         
         
 
