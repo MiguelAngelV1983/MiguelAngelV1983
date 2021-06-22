@@ -10,8 +10,6 @@ class Girl:
     coord_x=800
     coord_y=480
 
-    speed_x = 3
-    
     screen = pygame.display.set_mode([coord_x, coord_y], 0, 32)
     
 
@@ -51,63 +49,44 @@ class Girl:
                 pygame.quit()
                 exit()
     
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    move_x = -1
-                    sprite_lr = False
-                    if(sprite_num == 0):
-                        sprite_num = 9
-                    else:
-                        sprite_num -= 1
-                elif event.key == pygame.K_RIGHT:
-                    move_x = +1
-                    sprite_lr = True
-                    if(sprite_num == 9):
-                        sprite_num = 0
-                    else:
-                        sprite_num += 1
-                
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    move_x = 0
-                elif event.key == pygame.K_RIGHT:
-                    move_x = 0
 
-            elif event.type == pygame.K_RIGHT:
-                if event.key == pygame.K_LEFT:
-                    move_x = -1
-                elif event.key == pygame.K_RIGHT:
-                    move_x = +1
-                    sprite_num += 1
+        
+        if (sprite_lr == True) and (x <= coord_x-64):
+            x += 1
+            if(sprite_num > 9):
+                sprite_num = 1
+            else:
+                sprite_num += 0.05
+        elif (sprite_lr == False) and (x >= 0):
+            x -= 1
+            if(sprite_num > 9):
+                sprite_num = 1
+            else:
+                sprite_num += 0.05
+              
                     
-        x+= move_x
-        y+= move_y
 
         if(x < 0):
             x = 0
+            sprite_lr = True
+
 
         if(x > coord_x-64):
             x = coord_x-64
+            sprite_lr = False
 
         
 
         print(x)
+        print(sprite_num)
 
 
         screen.fill((0, 225, 255))
         if(sprite_lr == True):
-            screen.blit(miniGirlR[sprite_num], (x, y))
+            screen.blit(miniGirlR[round(sprite_num)], (x, y))
         else:
-            screen.blit(miniGirlL[sprite_num], (x, y))
+            screen.blit(miniGirlL[round(sprite_num)], (x, y))
         
-##        for i in range(0,9):
-##            
-##            
-##            x+=0.05
-##            if (x==coord_x):
-##                for j in range(9,0):
-##                    x+=0.05
-##                    screen.blit(miniGirlL[j], (x, y+128))
         
         
 
