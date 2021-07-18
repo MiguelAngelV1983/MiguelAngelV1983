@@ -1,4 +1,5 @@
 import pygame
+import sys
 from tkinter import *
 from tkinter import messagebox as MessageBox
 
@@ -11,6 +12,7 @@ class pelota:
         self.y = y
         self.vx = 0
         self.vy = 0
+        
 
     def dibujar(self):
         pygame.draw.rect(self.ventana, (255, 255, 255), (self.x, self.y, 10, 10))
@@ -64,18 +66,23 @@ class Bloques:
 
 
 def refrescar(ventana):
-    ventana.fill((0, 0, 0))
+    ventana.fill((0,0, 255))
     bola.dibujar()
     r1.dibujar()
     tablero.dibujar()
-    text = font.render(str(golpes), True, ((255, 255, 255)))
+    text = font.render("Golpes " + str(golpes), True, ((255, 255, 255)))
+    text1 = font.render("Vidas " + str(lifes), True, (255,255,255))
     text_rect = text.get_rect()
+    text1_rect = text1.get_rect()
     text_rect.centerx = 300
+    text1_rect.centerx = 450
     ventana.blit(text, text_rect)
+    ventana.blit(text1, text1_rect)
 
 
 def colisiones():
-    global golpes
+    global golpes, lifes
+    print(bola.y)
     if bola.y < 3*10+35+9:
         for i in range(4):
             for j in range(10):
@@ -84,16 +91,27 @@ def colisiones():
                             (i * 10 + 35 < bola.y < i * 10 + 35 + 9) or (i * 10 + 35 < bola.y + 10 < i * 10 + 35 + 9)):
                         tablero.tablero[i][j] = 0
                         bola.vy *= -1
-                        golpes += 40
+                        golpes += 1
+                        
                         if golpes == 40:
                             MessageBox.showinfo("Fin del juego", "Nivel finalizado")
                             pygame.quit()
+                            sys.exit()
+                            
+
+    if bola.y == 402:
+        lifes-=1
+        if lifes == 0:
+            MessageBox.showinfo("Fin del juego", "Vidas agotadas")
+            pygame.quit()
+            sys.exit()
                             
                             
 
 
 def main():
-    global bola, golpes, font, r1, tablero
+    global bola, golpes, font, r1, tablero, lifes
+    lifes = 5
     ventana = pygame.display.set_mode((600, 400))
     ventana.fill((100, 200, 100))
     bola = pelota(ventana, 50, 100)
@@ -126,7 +144,6 @@ def main():
         if bola.x >= 590:
             bola.vx *= -1
             bola.x = 590
-            # golpes += 1
         if bola.x <= 0:
             bola.vx *= -1
             bola.x = 0
